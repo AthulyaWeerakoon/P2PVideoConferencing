@@ -1,4 +1,4 @@
-const socket = io('http://localhost:20169');
+const socket = io('http://hivesphere.software:20169');
 const createRoomBtn = document.getElementById('createRoomBtn');
 const joinRoomBtn = document.getElementById('joinRoomBtn');
 const roomIdInput = document.getElementById('roomIdInput');

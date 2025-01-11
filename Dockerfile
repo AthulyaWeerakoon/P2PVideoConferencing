@@ -10,4 +10,4 @@ COPY backend/ ./
 
 EXPOSE 20169
 
-CMD ["node", "server.js"]
+CMD ["node", "app.js"]
