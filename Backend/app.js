@@ -7,8 +7,8 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 
 // Check if certificate and password files exist
-const certificatePath = 'certs/certificate.pfx';
-const passwordPath = 'certs/certificate_password.txt';
+const certificatePath = '/certs/certificate.pfx';
+const passwordPath = '/certs/certificate_password.txt';
 const hasCertificate = fs.existsSync(certificatePath);
 const hasPassword = fs.existsSync(passwordPath);
 
