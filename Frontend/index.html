@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Conferencing</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="controls">
+    <input id="usernameInput" placeholder="Enter your username" style="margin: 7px;">
+    <br/>
+    <input id="roomIdInput" placeholder="Enter Room ID" style="margin: 2px 7px 7px 7px;">
+    <br/>
+    <button id="createRoomBtn">Create Room</button>
+    <button id="joinRoomBtn">Join Room</button>
+  </div>
+
+  <div id="videos" style="display: none">
+    <div id="info"></div>
+    <video id="localVideo" autoplay muted></video>
+    <div style="display: block; max-width: 480px; width: 100%">
+      <div class="checkboxes">
+        <label><input id="muteAudio" type="checkbox" /> Mute Audio</label>
+        <label><input id="turnOffVideo" type="checkbox" /> Turn Off Video</label>
+        <button id="openChat">Open Chat</button>
+      </div>
+    </div>
+    <div id="remoteVideos"></div>
+  </div>
+
+  <div class="chat" id="chat" style="display: none;">
+    <div class="chat-container">
+      <button class="chat-close-btn" id="chatClose">Close</button>
+      <div class="message-container" id="messageContainer"></div>
+      <div class="input-area">
+        <input type="text" placeholder="Type a message..." class="text-input" id="chatInput">
+        <button class="send-btn" id="chatSend">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-pop-up" id="errorPopup">
+    <div class="error-message">
+      <div id="error"></div>
+      <button class="error-close-btn" id="errorClose">Close</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
