@@ -10,24 +10,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-    - name: Login to Dockerhub
-      env: 
-        DOCKER_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-    - name: Build Docker Image
-      run: docker build -t atleebugs/p2p-backend -f Dockerfile .
+      - name: Login to Dockerhub
+        env: 
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
-    - name: Push to Dockerhub
-      run: docker push atleebugs/p2p-backend:latest
+      - name: Build Docker Image
+        run: docker build -t $DOCKER_USERNAME/p2p-backend:latest -f Dockerfile .
+
+      - name: Push to Dockerhub
+        run: docker push $DOCKER_USERNAME/p2p-backend:latest
 
   deploy-backend:
     runs-on: self-hosted
     needs: build-and-push-backend
     steps:
       - name: Pull the Docker image
-        run: sudo docker pull atleebugs/p2p-backend:latest
+        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
 
       - name: Stop and remove old container
         run: sudo docker rm -f p2p-backend-container || true
@@ -36,7 +37,7 @@ jobs:
         run: |
           sudo docker run -d --restart always \
           -p 20169:20169 \
-          --name p2p-backend-container atleebugs/p2p-backend
+          --name p2p-backend-container ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
 
       - name: Prune old Docker images
         run: sudo docker image prune -f
