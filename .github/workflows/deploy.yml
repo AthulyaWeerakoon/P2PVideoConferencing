@@ -30,13 +30,27 @@ jobs:
       - name: Pull the Docker image
         run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
 
+      - name: Create certs directory
+        run: mkdir -p certs
+
+      - name: Decode and save certificate to runner folder
+        env:
+          PFX_CERTIFICATE_BASE64: ${{ secrets.CERTIFICATE_PFX_BASE64 }}
+          PFX_CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+        run: |
+          # Decode and save certificate
+          echo "$PFX_CERTIFICATE_BASE64" | base64 --decode > certs/certificate.pfx
+          # Save certificate password
+          echo "$PFX_CERTIFICATE_PASSWORD" > certs/certificate_password.txt
+
       - name: Stop and remove old container
         run: sudo docker rm -f p2p-backend-container || true
 
-      - name: Run Docker container
+      - name: Run Docker container with certificates mounted
         run: |
           sudo docker run -d --restart always \
           -p 20169:20169 \
+          -v $(pwd)/certs:/certs \
           --name p2p-backend-container ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
 
       - name: Prune old Docker images

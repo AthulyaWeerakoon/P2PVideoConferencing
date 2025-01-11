@@ -1,14 +1,42 @@
 const express = require('express');
 const http = require('http');
+const https = require('https');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+
+// Check if certificate and password files exist
+const certificatePath = 'certs/certificate.pfx';
+const passwordPath = 'certs/certificate_password.txt';
+const hasCertificate = fs.existsSync(certificatePath);
+const hasPassword = fs.existsSync(passwordPath);
 
 const app = express();
 app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
 
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, { cors: { origin: '*', methods: ['GET', 'POST'] } });
+const ioOptions = {
+  cors: { origin: '*', methods: ['GET', 'POST'] }
+};
+
+let server;
+
+// If certificate and password are available, use HTTPS; otherwise, use HTTP
+if (hasCertificate && hasPassword) {
+  const password = fs.readFileSync(passwordPath, 'utf8').trim(); // Read password from file
+  const options = {
+    pfx: fs.readFileSync(certificatePath), // Load the certificate
+    passphrase: password // Provide the password for the certificate
+  };
+
+  server = https.createServer(options, app);
+  console.log('Using HTTPS for signaling server');
+} else {
+  server = http.createServer(app);
+  console.log(`Using HTTP for signaling server`);
+}
+
+const io = new Server(server, ioOptions);
 
 const rooms = {}; // Track active rooms and participants
 const userNames = {}; // Map socket IDs to usernames
@@ -96,6 +124,8 @@ io.on('connection', (socket) => {
   });
 });
 
-httpServer.listen(20169, () => {
-  console.log('Signaling server running on HTTP port 20169');
+// Start the server
+server.listen(20169, () => {
+  const protocol = hasCertificate && hasPassword ? 'HTTPS' : 'HTTP';
+  console.log(`Signaling server running on ${protocol} port 20169`);
 });
