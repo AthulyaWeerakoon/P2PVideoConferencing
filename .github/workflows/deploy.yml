@@ -34,12 +34,12 @@ jobs:
       - name: Decode and save certificate to runner folder
         env:
           PFX_CERTIFICATE_BASE64: ${{ secrets.BACKEND_CERTIFICATE }}
-        run: echo "$PFX_CERTIFICATE_BASE64" | base64 --decode > /home/runner/certs/certificate.pfx
+        run: sudo echo "$PFX_CERTIFICATE_BASE64" | base64 --decode > /home/runner/certs/certificate.pfx
 
       - name: Save certificate password to runner folder
         env:
           PFX_CERTIFICATE_PASSWORD: ${{ secrets.BACKEND_CERTIFICATE_PASSWORD }}
-        run: echo "$PFX_CERTIFICATE_PASSWORD" > /home/runner/certs/certificate_password.txt
+        run: sudo echo "$PFX_CERTIFICATE_PASSWORD" > /home/runner/certs/certificate_password.txt
 
       - name: Pull the Docker image
         run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
