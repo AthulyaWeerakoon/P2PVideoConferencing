@@ -125,7 +125,7 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
-server.listen(20169, () => {
+server.listen(2087, () => {
   const protocol = hasCertificate && hasPassword ? 'HTTPS' : 'HTTP';
-  console.log(`Signaling server running on ${protocol} port 20169`);
+  console.log(`Signaling server running on ${protocol} port 2087`);
 });

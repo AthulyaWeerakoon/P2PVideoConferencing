@@ -8,6 +8,6 @@ RUN npm install
 
 COPY Backend/ ./
 
-EXPOSE 20169
+EXPOSE 2087
 
 CMD ["node", "app.js"]

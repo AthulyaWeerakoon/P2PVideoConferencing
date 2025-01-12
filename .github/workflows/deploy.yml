@@ -49,7 +49,7 @@ jobs:
       - name: Run Docker container with certificates mounted
         run: |
           sudo docker run -d --restart always \
-          -p 20169:20169 \
+          -p 2087:2087 \
           -v $(pwd)/certs:/certs \
           --name p2p-backend-container ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
 
