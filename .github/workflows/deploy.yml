@@ -55,19 +55,3 @@ jobs:
 
       - name: Prune old Docker images
         run: sudo docker image prune -f
-
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    needs: build-and-push-backend
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./Frontend

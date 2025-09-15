@@ -3,8 +3,6 @@
 ## Project Overview
 This project implements a real-time **Peer-to-Peer (P2P) Video Conferencing** application using **WebRTC**. It enables users to communicate via video, audio, and text chat, making it an ideal solution for remote collaboration. The system is designed with a **Node.js backend** for signaling and a **JavaScript frontend**, hosted on **Vercel** and **AWS**.
 
-*Service currently unavailable, backend servers being migrated from AWS to Oracle Clouds.*
-
 ## Features
 
 ### 🔹 Real-Time Communication
