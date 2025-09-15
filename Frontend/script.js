@@ -1,4 +1,6 @@
-const socket = io('https://athulyaweerakoon.xyz/p2p-video-signalling');
+const socket = io('https://athulyaweerakoon.xyz', {
+  path: '/p2p-video-signalling/socket.io'
+});
 const createRoomBtn = document.getElementById('createRoomBtn');
 const joinRoomBtn = document.getElementById('joinRoomBtn');
 const roomIdInput = document.getElementById('roomIdInput');
