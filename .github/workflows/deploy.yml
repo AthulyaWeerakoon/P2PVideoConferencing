@@ -24,7 +24,7 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/p2p-backend:latest
 
   deploy-backend:
-    runs-on: self-hosted
+    runs-on: [self-hosted, google]
     needs: build-and-push-backend
     steps:
       - name: Pull the Docker image
