@@ -5,47 +5,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Conferencing</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <div id="controls">
-    <input id="usernameInput" placeholder="Enter your username" style="margin: 7px;">
-    <br/>
-    <input id="roomIdInput" placeholder="Enter Room ID" style="margin: 2px 7px 7px 7px;">
-    <br/>
-    <button id="createRoomBtn">Create Room</button>
-    <button id="joinRoomBtn">Join Room</button>
-  </div>
-
-  <div id="videos" style="display: none">
-    <div id="info"></div>
-    <video id="localVideo" autoplay muted></video>
-    <div style="display: block; max-width: 480px; width: 100%">
-      <div class="checkboxes">
-        <label><input id="muteAudio" type="checkbox" /> Mute Audio</label>
-        <label><input id="turnOffVideo" type="checkbox" /> Turn Off Video</label>
-        <button id="openChat">Open Chat</button>
+  <div id="controls" class="welcome-screen">
+    <div class="welcome-card">
+      <div class="welcome-header">
+        <i class="fas fa-video welcome-icon"></i>
+      </div>
+      <div class="welcome-form">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input id="usernameInput" placeholder="Enter your username" required>
+        </div>
+        <div class="input-group">
+          <i class="fas fa-door-open"></i>
+          <input id="roomIdInput" placeholder="Enter Room ID (optional for join)">
+        </div>
+        <div class="button-group">
+          <button id="createRoomBtn" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Create Room
+          </button>
+          <button id="joinRoomBtn" class="btn btn-secondary">
+            <i class="fas fa-sign-in-alt"></i>
+            Join Room
+          </button>
+        </div>
       </div>
     </div>
-    <div id="remoteVideos"></div>
   </div>
 
-  <div class="chat" id="chat" style="display: none;">
+  <div id="videos" class="video-interface">
+    <div class="top-bar">
+      <div id="info" class="room-info"></div>
+      <div class="top-controls">
+        <button id="openChat" class="btn btn-icon" title="Open Chat">
+          <i class="fas fa-comment"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="video-layout">
+      <div class="local-video-container" id="localVideoContainer">
+        <video id="localVideo" autoplay muted></video>
+        <div class="local-video-overlay">
+          <span class="local-label">You</span>
+          <button id="minimizeLocal" class="btn btn-icon btn-small" title="Minimize">
+            <i class="fas fa-compress"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="remoteVideos" class="remote-videos-grid"></div>
+    </div>
+
+    <div class="control-bar">
+      <div class="control-group">
+        <button id="muteAudioBtn" class="btn btn-control" title="Mute/Unmute Audio">
+          <i class="fas fa-microphone"></i>
+        </button>
+        <button id="turnOffVideoBtn" class="btn btn-control" title="Turn Video On/Off">
+          <i class="fas fa-video"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat" id="chat">
     <div class="chat-container">
-      <button class="chat-close-btn" id="chatClose">Close</button>
+      <div class="chat-header">
+        <h3></h3>
+        <button class="btn btn-icon" id="chatClose" title="Close Chat">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
       <div class="message-container" id="messageContainer"></div>
       <div class="input-area">
         <input type="text" placeholder="Type a message..." class="text-input" id="chatInput">
-        <button class="send-btn" id="chatSend">Send</button>
+        <button class="btn btn-chat" id="chatSend">
+          <i class="fas fa-paper-plane"></i>
+        </button>
       </div>
     </div>
   </div>
 
   <div class="error-pop-up" id="errorPopup">
     <div class="error-message">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
       <div id="error"></div>
-      <button class="error-close-btn" id="errorClose">Close</button>
+      <button class="btn btn-secondary" id="errorClose">Close</button>
     </div>
   </div>
+
+  <input id="muteAudio" type="checkbox" style="display: none;" />
+  <input id="turnOffVideo" type="checkbox" style="display: none;" />
 
   <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
   <script src="script.js"></script>
